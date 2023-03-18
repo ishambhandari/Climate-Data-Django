@@ -1,1 +1,1 @@
-#Starting of the project
+* Starting of the project
