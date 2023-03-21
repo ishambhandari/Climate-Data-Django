@@ -4,4 +4,5 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name = 'home'),
+    path('load_countrydata/',views.load_countrydata, name=load_countrydata)
 ]
