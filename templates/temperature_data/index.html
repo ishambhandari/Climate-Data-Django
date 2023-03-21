@@ -1,4 +1,11 @@
 {% extends "temperature_data/base.html" %}
 {%block title%}
-<p>Home page</p>
-{%endblock %}
+<p>Welcome to this page</p>
+{% endblock %}
+<div class="content">
+{% for count in countries %}
+{{count.country}}
+{% endfor %}
+<a href ="{% url 'load_countrydata'%}"> View all counties</a>
+</div>
+
