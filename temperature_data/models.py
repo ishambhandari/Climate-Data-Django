@@ -52,6 +52,8 @@ class States(models.Model):
     state = models.CharField(max_length = 100)
     country_id = models.IntegerField()
 
+    def __str__(self):
+        return f'{self.id},{self.state},{self.country_id}'
 
     
 
