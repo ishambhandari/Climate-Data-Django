@@ -2,10 +2,44 @@
 {%block title%}
 <p>Welcome to this page</p>
 {% endblock %}
-<div class="content">
-{% for count in countries %}
-{{count.country}}
-{% endfor %}
-<a href ="{% url 'load_countrydata'%}"> View all counties</a>
-</div>
+<section class = "country">
+    <h2> List of Country </h2>
+        <div class="content">
+            <ul class=>
+                {% for count in countries %}
+                <li>{{count.country}}</li>
+                {% endfor %}
+            </ul>
+        </div>
+            <div class = "footer">
+                <a href ="{% url 'load_countrydata'%}"> View all counties</a>
+             </div>
+</section>
+<section>
+    <h2> List of States </h2>
+    <div class=>
+        <ul class=>
+            {% for count in states%}
+            <li>{{count.states}}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class ="footer">
+        <a href = "{% url 'load_statedata'%}"> View all states </a>
+    </div>
+</section>
+<section>
+    <h2> List of Cities </h2>
+    <div class=>
+        <ul class=>
+            {%for count in cities%}
+            <li>{{count.cities}}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="footer">
+        <a href ="{%url 'load_citiesdata'%}"> View all cities </a>
+    </div>
+</section>
+
 
