@@ -3,11 +3,17 @@
         <title> Load All Data </title>
         </head>
         <body>
+                <form action="/search" method="get">
+                <input name="search" type="text" placeholder="Search for a city">
+                <button type="submit" value="Search">
+                    <span class="icon" data-type ="global" data-value="search"> Search </span>
+                </button>
+                </form>
             <div class="link-countries">
-            <ul class="link-countries-list">
-            {% for count in cities %}
-            <li><a href ="{%url ''%}">{{count.cities}}</a></li>
+            <ul>
+            {%for count in cities%}
+            <li>{{count.cities}}</li>
             {% endfor %}
-            </ul>
+        </ul>
         </body>
 </html>
