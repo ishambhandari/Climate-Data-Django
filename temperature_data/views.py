@@ -3,6 +3,9 @@ from .models import Country_data,State_data,City_data
 
 # Create your views here.
 def index(request):
+    return render(request, 'temperature_data/index.html')
+
+def display_data(request):
     countries = Country_data.objects.all()[:5]          # loads only first five entries for country
     states = State_data.objects.all()[:5]
     cities = City_data.objects.all()[:5]
@@ -11,7 +14,7 @@ def index(request):
         'states': states,
         'cities': cities,
     }
-    return render(request, 'temperature_data/index.html',context)
+    return render(request, 'temperature_data/display_data.html',context)
 
 def load_countrydata(request):
     countries = Country_data.objects.all()          # loads complete entries for country
