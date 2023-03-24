@@ -54,7 +54,5 @@ class State_data(models.Model):
     def __str__(self):
         return f"{self.date}, {self.state}, {self.country}, {self.average_temperature}"
 
-    
-
 
 
