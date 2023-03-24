@@ -4,7 +4,7 @@ from pathlib import Path
 from django.db import models
 from django.core.management.base import BaseCommand, CommandError
 
-from temperature_data.models import Country_data, City_data, State_data
+from temperature_data.models import Country_data, City_data, State_data,Country, City, State
 
 #We use the command tools so that we gain access to our models and database connections
 #https://docs.djangoproject.com/en/3.1/howto/custom-management-commands/ 
@@ -17,6 +17,9 @@ class Command(BaseCommand):
         Country_data.objects.all().delete()
         City_data.objects.all().delete()
         State_data.objects.all().delete()
+        Country.objects.all().delete()
+        City.objects.all().delete()
+        State.objects.all().delete()
         print("table dropped successfully")
         # create table again
         # open the file to read it into th database
@@ -25,43 +28,63 @@ class Command(BaseCommand):
     # code block here
             reader_country = csv.reader(f, delimiter=",")
             next(reader_country) # skip the header line
+            unique_countries  = set()
             for row in reader_country:
-                print(row)
-                country = Country_data.objects.create(
-                date = row[0],
-                average_temperature = row[1],
-                average_temperature_uncertainty = row[2],
-                country = row[3]
-                )
-                country.save()
+                unique_countries.add(row[3])
 
-            reader_city = csv.reader(C, delimiter=",")
-            next(reader_city) # skip the header line
-            for row in reader_city:
+            for row in unique_countries:
+                country = Country.objects.create(
+                        country = row
+                        )
+            for row in reader_country:
+                cid = Country.objects.filter(country = row)
                 print(row)
-                city = City_data.objects.create(
+                print('cid', cid)
+                country_data = Country_data.objects.create(
                 date = row[0],
                 average_temperature = row[1],
                 average_temperature_uncertainty = row[2],
-                city = row[3],
-                country = row[4],
-                latitude = row[5],
-                longitude = row[6],
+                country_id = cid[0]
                 )
-                city.save()
+                country_data.save()
 
-            reader_state= csv.reader(S, delimiter=",")
-            next(reader_state) # skip the header line
-            for row in reader_state:
-                print(row)
-                state = State_data.objects.create(
-                date = row[0],
-                average_temperature = row[1],
-                average_temperature_uncertainty = row[2],
-                state = row[3],
-                country = row[4]
-                )
-                state.save()
-        print("data parsed successfully")
+#             for row in reader_country:
+#                 print(row)
+#                 country = Country_data.objects.create(
+#                 date = row[0],
+#                 average_temperature = row[1],
+#                 average_temperature_uncertainty = row[2],
+#                 country = row[3]
+#                 )
+#                 country.save()
+
+#             reader_city = csv.reader(C, delimiter=",")
+#             next(reader_city) # skip the header line
+#             for row in reader_city:
+#                 print(row)
+#                 city = City_data.objects.create(
+#                 date = row[0],
+#                 average_temperature = row[1],
+#                 average_temperature_uncertainty = row[2],
+#                 city = row[3],
+#                 country = row[4],
+#                 latitude = row[5],
+#                 longitude = row[6],
+#                 )
+#                 city.save()
+
+#             reader_state= csv.reader(S, delimiter=",")
+#             next(reader_state) # skip the header line
+#             for row in reader_state:
+#                 print(row)
+#                 state = State_data.objects.create(
+#                 date = row[0],
+#                 average_temperature = row[1],
+#                 average_temperature_uncertainty = row[2],
+#                 state = row[3],
+#                 country = row[4]
+#                 )
+#                 state.save()
+#         print("data parsed successfully")
 
         
