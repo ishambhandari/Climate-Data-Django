@@ -1,49 +1,53 @@
+{% extends "temperature_data/base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html>
-    <head>
-    <title> Displaying data </title>
-    <link rel="stylesheet"  href="{% static 'data_display.css' %}">
-    </head>
-    <body>
-        <section>
-            <h2> List of Country </h2>
-            <div class="locations">
-                <ul>
-                    {% for count in countries %}
-                    <li>{{count.country}}</li>
-                    {% endfor %}
-                </ul>
-            </div>
-            <div class = "footer">
-                <a href = "{% url 'load_countrydata' %}"> View all countries</a>
-            </div>
-        </section>
-        <section>
-            <h2> List of States </h2>
-            <div class="locations">
-                <ul>
-                    {% for count in states%}
-                    <li>{{count.states}}</li>
-                    {% endfor %}
-                </ul>
-            </div>
-            <div class ="footer">
-                <a href = "{% url 'load_statedata' %}"> View all states </a>
-            </div>
-        </section>
-        <section>
-            <h2> List of Cities </h2>
-            <div class="locations">
-                <ul>
-                    {%for count in cities%}
-                    <li>{{count.cities}}</li>
-                    {% endfor %}
-                </ul>
-            </div>
-            <div class="footer">
-                <a href ="{% url 'load_citiesdata' %}"> View all cities </a>
-            </div>
-        </section>
-    </body>
-</html>
+
+{% block title %}
+<title> Displaying data </title>
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet"  href="{% static 'css/data_display.css' %}">
+{% endblock %}
+    
+{% block content %} 
+    <section>
+        <h2> List of Country </h2>
+        <div class="locations">
+            <ul>
+                {% for count in countries %}
+                <li>{{count.country}}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class = "footer">
+            <a href = "{% url 'load_countrydata' %}"> View all countries</a>
+        </div>
+    </section>
+    <section>
+        <h2> List of States </h2>
+        <div class="locations">
+            <ul>
+                {% for count in states%}
+                <li>{{count.states}}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class ="footer">
+            <a href = "{% url 'load_statedata' %}"> View all states </a>
+        </div>
+    </section>
+    <section>
+        <h2> List of Cities </h2>
+        <div class="locations">
+            <ul>
+                {%for count in cities%}
+                <li>{{count.cities}}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="footer">
+            <a href ="{% url 'load_citiesdata' %}"> View all cities </a>
+        </div>
+    </section>
+{% endblock %}
+
