@@ -6,9 +6,6 @@ from django.core.management.base import BaseCommand, CommandError
 
 from temperature_data.models import Country_data, City_data, State_data,Country, City, State
 
-#We use the command tools so that we gain access to our models and database connections
-#https://docs.djangoproject.com/en/3.1/howto/custom-management-commands/ 
-
 
 class Command(BaseCommand):
     help = 'Load data from csv'
@@ -32,59 +29,81 @@ class Command(BaseCommand):
             for row in reader_country:
                 unique_countries.add(row[3])
 
-            for row in unique_countries:
+            for u_country  in unique_countries:
+                print('here')
                 country = Country.objects.create(
-                        country = row
+                        country = u_country 
                         )
-            for row in reader_country:
-                cid = Country.objects.filter(country = row)
-                print(row)
-                print('cid', cid)
+            f.seek(0)
+            next(reader_country)
+            for u_row in reader_country:
+                cid = Country.objects.get(country = u_row[3])
+                print('cid', cid.country_id)
                 country_data = Country_data.objects.create(
-                date = row[0],
-                average_temperature = row[1],
-                average_temperature_uncertainty = row[2],
-                country_id = cid[0]
+                date = u_row[0],
+                average_temperature = u_row[1],
+                average_temperature_uncertainty = u_row[2],
+                country_id = cid
                 )
                 country_data.save()
 
-#             for row in reader_country:
-#                 print(row)
-#                 country = Country_data.objects.create(
-#                 date = row[0],
-#                 average_temperature = row[1],
-#                 average_temperature_uncertainty = row[2],
-#                 country = row[3]
-#                 )
-#                 country.save()
+            reader_city= csv.reader(C, delimiter=",")
+            next(reader_city) # skip the header line
+            unique_city= set()
+            for row in reader_city:
+                city_instance = Country.objects.get(country = row[4])
+                unique_city.add((row[3], city_instance))
 
-#             reader_city = csv.reader(C, delimiter=",")
-#             next(reader_city) # skip the header line
-#             for row in reader_city:
-#                 print(row)
-#                 city = City_data.objects.create(
-#                 date = row[0],
-#                 average_temperature = row[1],
-#                 average_temperature_uncertainty = row[2],
-#                 city = row[3],
-#                 country = row[4],
-#                 latitude = row[5],
-#                 longitude = row[6],
-#                 )
-#                 city.save()
+            for u_city in unique_city:
+                city = City.objects.create(
+                        city = u_city[0],
+                        country_id = u_city[1]
+                        )
+            f.seek(0)
+            next(reader_city)
+            for u_row in reader_city:
+                cid = City.objects.get(city = u_row[3])
 
-#             reader_state= csv.reader(S, delimiter=",")
-#             next(reader_state) # skip the header line
-#             for row in reader_state:
-#                 print(row)
-#                 state = State_data.objects.create(
-#                 date = row[0],
-#                 average_temperature = row[1],
-#                 average_temperature_uncertainty = row[2],
-#                 state = row[3],
-#                 country = row[4]
-#                 )
-#                 state.save()
-#         print("data parsed successfully")
+                country_instance = Country.objects.get(country_id = cid.country_id.country_id)
+                print('this is country_ins', country_instance)
+                print('cid', cid.city_id)
+                city_data= City_data.objects.create(
+                date = u_row[0],
+                average_temperature = u_row[1],
+                average_temperature_uncertainty = u_row[2],
+                city_id = cid,
+                country_id = country_instance,
+                latitude = u_row[5],
+                longitude = u_row[6]
+                )
+                city_data.save()
 
-        
+
+
+            reader_state= csv.reader(S, delimiter=",")
+            next(reader_state) # skip the header line
+            unique_state= set()
+            for row in reader_state:
+                state_instance= Country.objects.get(country = row[4])
+                unique_state.add((row[3], state_instance))
+
+            for u_state in unique_state:
+                state = State.objects.create(
+                        state = u_state[0],
+                        country_id = u_state[1]
+                        )
+            f.seek(0)
+            next(reader_state)
+            for u_row in reader_state:
+                cid = State.objects.get(state = u_row[3])
+                country_instance = Country.objects.get(country_id = cid.country_id.country_id)
+                print('cid', cid.state_id)
+                state_data= State_data.objects.create(
+                date = u_row[0],
+                average_temperature = u_row[1],
+                average_temperature_uncertainty = u_row[2],
+                state_id = cid,
+                country_id = country_instance,
+                )
+                state_data.save()
+
