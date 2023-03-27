@@ -4,15 +4,29 @@ Home
 {% endblock %}
 <p>Home page</p>
 {%block content%}
-    <div id="map"></div>
 
-    <!-- Include D3.js library -->
-    <script src="https://d3js.org/d3.v7.min.js"></script>
-
-    <!-- Load the script that creates the world map -->
-    <div id="image">
-        <img src="{% load static %}{% static 'images/forest-fire-3836834_960_720.jpg' %}" style="width: 100%; height: auto;" alt="Image">
+    <div class="my-heading">
+            <h1 class="my-heading" style="color: black; text-align: center;">Are we headed to a disaster?</h1>
+            <h1 class="my-heading" style="color: black; text-align: center;">Let's find out!</h1>
     </div>
+
+    <div id="text-about-project" style="margin: 0px; border: 10px">
+        <p>
+            Some say climate change is the biggest threat of our age while others say it’s a myth based on dodgy science. We are turning some of the data over to you so you can form your own view.
+        </p>
+        <p>
+            There’s a huge amount of data cleaning and preparation that goes into putting together a long-time study of climate trends. Early data was collected by technicians using mercury thermometers, where any variation in the visit time impacted measurements. In the 1940s, the construction of airports caused many weather stations to be moved. In the 1980s, there was a move to electronic thermometers that are said to have a cooling bias.
+        </p>
+        <p>
+            Given this complexity, there are a range of organizations that collate climate trends data. The three most cited land and ocean temperature data sets are NOAA’s MLOST, NASA’s GISTEMP and the UK’s HadCrut.
+        </p>
+        <p>
+            We have repackaged the data from a newer compilation put together by the Berkeley Earth, which is affiliated with Lawrence Berkeley National Laboratory. The Berkeley Earth Surface Temperature Study combines 1.6 billion temperature reports from 16 pre-existing archives. It is nicely packaged and allows for slicing into interesting subsets (for example by country). They publish the source data and the code for the transformations they applied. They also use methods that allow weather observations from shorter time series to be included, meaning fewer observations need to be thrown away.
+        </p>
+    </div>
+
+    <button style="margin-left:300px" onclick="window.location.href='/display_data'">Dive Deep</button>
+
 
 {%endblock%}
 
