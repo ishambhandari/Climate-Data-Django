@@ -1,0 +1,59 @@
+{% extends "temperature_data/base.html" %} {%block title%} Average page
+{%endblock %} {%block content%}
+
+<form action="average_data" method="post">
+  {% csrf_token %}
+  <label for="my-select">Select option</label>
+  <select id="my-select" name="selected_value">
+    <option value="country" {% if data.param == "country" %} selected{% endif %} >Countries</option>
+    <option value="city" {% if data.param == "city" %} selected{% endif %}>Cities</option>
+    <option value="state" {% if data.param == "state" %} selected{% endif %}>States</option>
+  </select>
+  <button type="submit">Submit</button>
+</form>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Average Temperature</th>
+      <th>Average Temperature Uncertainty</th>
+    </tr>
+  </thead>
+  {% for row in data.data%}
+  <tbody>
+    <tr>
+      {%if 'city' in data.param%}
+
+      <td>
+
+        <a href = "{% url 'specific' table_name='city' row_id=row.city_id %}">
+        {{row.city.city}}
+      </a>
+      </td>
+      {%endif%}
+
+      {%if 'state' in data.param%}
+      <td>
+        <a href = "{% url 'specific' table_name='city' row_id=row %}">
+        {{row.state.state}}
+      </a>
+      </td>
+      {%endif%}
+
+      {%if 'country' in data.param%}
+      <td>
+
+        <a href = "{% url 'specific' table_name='city' row_id=row %}">
+        {{row.country.country}}
+      </a>
+      </td>
+      {%endif%}
+      </a>
+
+      <td>{{row.average_temperature}}</td>
+      <td>{{row.average_temperature_uncertainty}}</td>
+    </tr>
+  </tbody>
+  {%endfor%}
+</table>
+{%endblock%}

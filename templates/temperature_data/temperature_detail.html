@@ -1,0 +1,32 @@
+{% extends "temperature_data/base.html" %} {%block title%} Temperature Detail
+{%endblock %} {%block content%}
+
+<!-- <form action="average_data" method="post"> -->
+<!--   {% csrf_token %} -->
+<!--   <label for="my-select">Select option</label> -->
+<!--   <select id="my-select" name="selected_value" value="country"> -->
+<!--     <option value="country">Countries</option> -->
+<!--     <option value="city">Cities</option> -->
+<!--     <option value="state">States</option> -->
+<!--   </select> -->
+<!--   <button type="submit">Submit</button> -->
+<!-- </form> -->
+<table class="table">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Average Temperature</th>
+      <th>Average Temperature Uncertainty</th>
+    </tr>
+  </thead>
+  {% for row in data.data %}
+  <tbody>
+    <tr>
+      <td>{{row.date}}</td>
+      <td>{{row.average_temperature}}</td>
+      <td>{{row.average_temperature_uncertainty}}</td>
+    </tr>
+  </tbody>
+  {%endfor%}
+</table>
+{%endblock%}

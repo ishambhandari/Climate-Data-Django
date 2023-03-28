@@ -21,6 +21,9 @@ class State(models.Model):
     state = models.CharField(max_length = 100)
     country_id = models.ForeignKey(Country, on_delete = models.CASCADE, default = 1)
 
+    def __str__(self):
+        return f'{self.state_id},{self.state},{self.country_id}'
+
 
 class Country_data(models.Model):
     date = models.DateField()
@@ -60,7 +63,7 @@ class Country_average(models.Model):
     average_temperature_uncertainty = models.FloatField()
 
     def __str__(self):
-        return f"{self.country}, {self.average_temperature}"
+        return f"{self.country.country_id}, {self.country}, {self.average_temperature}"
 
 class City_average(models.Model):
     city= models.ForeignKey(City, on_delete = models.CASCADE)
@@ -68,7 +71,7 @@ class City_average(models.Model):
     average_temperature_uncertainty = models.FloatField()
 
     def __str__(self):
-        return f"{self.city}, {self.average_temperature}"
+        return f"{self.city.city_id},{self.city}, {self.average_temperature}"
 
 class State_average(models.Model):
     state = models.ForeignKey(State, on_delete = models.CASCADE)
@@ -76,7 +79,7 @@ class State_average(models.Model):
     average_temperature_uncertainty = models.FloatField()
     
     def __str__(self):
-        return f"{self.state}, {self.average_temperature}"
+        return f"{self.state.state_id},{self.state}, {self.average_temperature}"
 
 
 
