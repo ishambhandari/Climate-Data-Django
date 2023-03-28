@@ -1,4 +1,5 @@
 {% extends "temperature_data/base.html" %}
+{% load static %}
 {%block title%}
 Home
 {% endblock %}
@@ -24,9 +25,9 @@ Home
             We have repackaged the data from a newer compilation put together by the Berkeley Earth, which is affiliated with Lawrence Berkeley National Laboratory. The Berkeley Earth Surface Temperature Study combines 1.6 billion temperature reports from 16 pre-existing archives. It is nicely packaged and allows for slicing into interesting subsets (for example by country). They publish the source data and the code for the transformations they applied. They also use methods that allow weather observations from shorter time series to be included, meaning fewer observations need to be thrown away.
         </p>
     </div>
-
-    <button style="margin-left:300px" onclick="window.location.href='/display_data'">Dive Deep</button>
-
+    <div id="button">
+        <button style="display: block; margin: 0 auto;" type="button" onclick="window.location.href='/display_data'" class="btn btn-primary">Dive Deep</button>
+    </div>
 
 {%endblock%}
 
