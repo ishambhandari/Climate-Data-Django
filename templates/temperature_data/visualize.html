@@ -1,0 +1,19 @@
+{% load static %}
+
+{% block title %}
+<title> Load All Data </title>
+{% endblock %}
+
+{% block content %}
+  <form method="POST">
+    {% csrf_token %}
+    <select name="dropdown">
+      <option selected="selected" value="1" disabled> Choose here</option>
+      <option value='option1'>Country</option>
+      <option value='option2'>State</option>
+      <option value='option3'>City</option>
+    </select>  
+  <button type="submit" value="submit"></button>
+  </div>
+  </form>
+  

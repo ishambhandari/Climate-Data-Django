@@ -1,0 +1,49 @@
+{% extends "temperature_data/base.html" %}
+{% block content %}
+<div id="chart-wrapper">
+<canvas id="state-chart"></canvas>
+</div>
+{% endblock %}
+{% block style %}
+<style>
+#chart-wrapper {
+        display: inline-block;
+        position: relative;
+        width: 500px;
+    }
+</style>
+{% endblock %}
+{% block scripts%}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<script type= 'text/javascript'>
+      var data = JSON.parse('{{ chart|escapejs }}');
+      var ctx = document.getElementById('myChart').getContext('2d');
+      var chart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: 'bar',
+
+    // The data for our dataset
+  data: {
+    labels: data.lables,
+    datasets: [{
+        label: 'State data',
+        backgroundColor: 'rgb(255, 99, 132)',
+        borderColor: 'rgb(255, 99, 132)',
+        data: data.data
+    }]
+},
+
+// Configuration options go here
+options: {
+        responsive: true,
+        scales: {
+          yAxes: [{
+            ticks: {
+                beginAtZero: true
+            }
+        }]
+      }
+    }
+});
+</script>
+{% endblock %}
