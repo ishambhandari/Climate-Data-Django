@@ -1,6 +1,6 @@
 #!/usr/bin/bash 
 
-sed -i 's/\[]/\["13.42.51.178"]/' /home/ubuntu/Climate-Data-Django/mysite/settings.py
+sed -i 's/\[]/\["13.42.51.178"]/' /home/ubuntu/blogprojectdrf/mysite/settings.py
 
 python manage.py migrate 
 python manage.py makemigrations     
