@@ -1,0 +1,36 @@
+{% extends "temperature_data/base.html" %} {% block title %} Average Temperature
+Map {% endblock %} {% block head %}
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+  integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
+  crossorigin=""
+/>
+<style>
+  #heatmap {
+    height: 78vh;
+  }
+</style>
+{% endblock %} {% block content %}
+<h2>Average Temperature of Major cities around the world</h2>
+<div id="heatmap"></div>
+
+<script
+  src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+  integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
+  crossorigin=""
+></script>
+
+<script>
+    var heatmap = L.map("heatmap").setView([0,59], 3);
+    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19,
+      attribution:
+        '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    }).addTo(heatmap);
+  {% for input in data%}
+      var tooltip = L.tooltip([{{input.latitude}}, {{input.longitude}}], {content: '{{input.average_temperature}}'})
+  .addTo(heatmap);
+  {% endfor %}
+</script>
+{% endblock %}

@@ -5,6 +5,14 @@ from .models import Country, City, State, Country_data, City_data, State_data, C
 # Create your views here.
 def index(request):
     return render(request, 'temperature_data/index.html')
+def heatmap(request):
+    average_city_data = City_average.objects.all()
+    for i in average_city_data:
+        i.latitude = i.latitude[:-1]
+        i.longitude = i.longitude[:-1]
+        i.average_temperature = int(i.average_temperature)
+
+    return render(request, 'temperature_data/Heatmap.html', {'data':average_city_data})
 
 def place_names(request, parameter = 'country'):
     if parameter == 'city':
@@ -34,46 +42,35 @@ def average_data(request):
         paginator = Paginator(data, page_size)
         page_obj = paginator.get_page(page_number)
 
-        return render(request,'temperature_data/average_temperature.html', {'data':page_obj, 'param':state} )
-
     elif state == 'state':
         data = State_average.objects.all()
         paginator = Paginator(data, page_size)
         page_obj = paginator.get_page(page_number)
-        return render(request,'temperature_data/average_temperature.html', {'data':page_obj, 'param':state} )
-
-
-
-    data =Country_average.objects.all()
-    # Use Django's Paginator to paginate the data
-    paginator = Paginator(data, page_size)
-    page_obj = paginator.get_page(page_number)
+    else:
+        data =Country_average.objects.all()
+        # Use Django's Paginator to paginate the data
+        paginator = Paginator(data, page_size)
+        page_obj = paginator.get_page(page_number)
 
     return render(request, 'temperature_data/average_temperature.html', {'data': page_obj, 'param': state})
 
 def full_data(request, table_name, row_id ):
-    print('this is table name', table_name)
     row_id = row_id.split(',')[0]
-    print('this is row id', row_id)
     page_number = request.GET.get('page', 1)
     page_size = 10
     if table_name == 'city':
-        print('here')
         cid = City.objects.filter(city_id = int(row_id)).first()
-        print('this is cid', cid)
         data =  City_data.objects.filter(city_id = cid)
         param = 'city'
         paginator = Paginator(data, page_size)
         page_obj = paginator.get_page(page_number)
 
     elif table_name == 'state':
-        print('state here')
         sid = State.objects.filter(state_id = int(row_id)).first()
         data = State_data.objects.filter(state_id= sid)
         param  = 'state'
         paginator = Paginator(data, page_size)
         page_obj = paginator.get_page(page_number)
-        # print('country here')
     else:
         cid = Country.objects.filter(country_id = int(row_id)).first()
         data = Country_data.objects.filter(country_id= cid)
@@ -81,5 +78,6 @@ def full_data(request, table_name, row_id ):
         paginator = Paginator(data, page_size)
         page_obj = paginator.get_page(page_number)
     return render(request,'temperature_data/temperature_detail.html', {'data':page_obj, 'param':param} )
+
     
 

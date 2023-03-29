@@ -17,8 +17,7 @@ class Command(BaseCommand):
         City_average.objects.all().delete()
         State_average.objects.all().delete()
         for country in all_countries:
-            print('this is country', country)
-            specific_data = Country_data.objects.filter(country_id = country)  
+            print('this is country', country) specific_data = Country_data.objects.filter(country_id = country)  
             average_temp = []
             average_temp_uncertainty = []
             for data in specific_data:
@@ -47,7 +46,10 @@ class Command(BaseCommand):
                 City_average.objects.create(
                             city = data.city_id,
                             average_temperature = sum(average_temp)/len(average_temp),
-                            average_temperature_uncertainty = sum(average_temp_uncertainty)/len(average_temp_uncertainty))
+                            average_temperature_uncertainty = sum(average_temp_uncertainty)/len(average_temp_uncertainty),
+                            latitude = specific_data[0].latitude,
+                            longitude = specific_data[0].longitude,
+                            )
 
                 average_temp = []
                 average_temp_uncertainty = []

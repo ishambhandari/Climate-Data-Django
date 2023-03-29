@@ -69,9 +69,11 @@ class City_average(models.Model):
     city= models.ForeignKey(City, on_delete = models.CASCADE)
     average_temperature = models.FloatField()
     average_temperature_uncertainty = models.FloatField()
+    latitude = models.CharField(max_length = 10, null = True)
+    longitude = models.CharField(max_length = 10, null = True)
 
     def __str__(self):
-        return f"{self.city.city_id},{self.city}, {self.average_temperature}"
+        return f"{self.city.city_id},{self.city}, {self.average_temperature}, {self.latitude}, {self.longitude}"
 
 class State_average(models.Model):
     state = models.ForeignKey(State, on_delete = models.CASCADE)
