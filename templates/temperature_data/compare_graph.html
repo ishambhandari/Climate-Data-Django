@@ -1,3 +1,13 @@
-{% extends "temperature_data/base.html" %} {%block title%} Compare Form 
+{% extends "temperature_data/base.html" %} {%block title%} Compare Form
 {%endblock %} {%block content%}
-<a href = '{%url 'average'%}?state={{param}}'><button style = "background-color:#333; color:#fff;border-radius:10px;padding:5px;margin:5px;">Back</button></a>
+<div class="container">
+  <select id="my-select" name="selected_value">
+    <option value="country">Countries</option>
+    <option value="city">Cities</option>
+    <option value="state">States</option>
+  </select>
+
+  <select id="select-second" name="selected_value_name"></select>
+</div>
+
+{%endblock%}
