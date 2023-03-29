@@ -4,10 +4,10 @@
 <form action="average_data" method="post">
   {% csrf_token %}
   <label for="my-select">Select option</label>
-  <select id="my-select" name="selected_value">
-    <option value="country" {% if data.param == "country" %} selected{% endif %} >Countries</option>
-    <option value="city" {% if data.param == "city" %} selected{% endif %}>Cities</option>
-    <option value="state" {% if data.param == "state" %} selected{% endif %}>States</option>
+  <select id="my-select" name="selected_value" >
+    <option value="country" {% if param == "country" %} selected{% endif %} >Countries</option>
+    <option value="city" {% if param == "city" %} selected{% endif %}>Cities</option>
+    <option value="state" {% if param == "state" %} selected{% endif %}>States</option>
   </select>
   <button type="submit">Submit</button>
 </form>
@@ -19,35 +19,35 @@
       <th>Average Temperature Uncertainty</th>
     </tr>
   </thead>
-  {% for row in data.data%}
+  {% for row in data%}
   <tbody>
     <tr>
-      {%if 'city' in data.param%}
+      {%if 'city' in param%}
 
       <td>
-
         <a href = "{% url 'specific' table_name='city' row_id=row.city_id %}">
         {{row.city.city}}
       </a>
       </td>
       {%endif%}
 
-      {%if 'state' in data.param%}
+      {%if 'state' in param%}
       <td>
-        <a href = "{% url 'specific' table_name='city' row_id=row %}">
+        <a href = "{% url 'specific' table_name='state' row_id=row %}">
         {{row.state.state}}
       </a>
       </td>
       {%endif%}
 
-      {%if 'country' in data.param%}
+      {%if 'country' in param%}
       <td>
 
-        <a href = "{% url 'specific' table_name='city' row_id=row %}">
+        <a href = "{% url 'specific' table_name='country' row_id=row %}">
         {{row.country.country}}
       </a>
       </td>
       {%endif%}
+
       </a>
 
       <td>{{row.average_temperature}}</td>
@@ -56,4 +56,26 @@
   </tbody>
   {%endfor%}
 </table>
+ {% if data.has_other_pages %}
+    <ul class="pagination">
+  {% if data.has_previous %}
+  <li><a href="?page={{ data.previous_page_number }}&state={{param}}">&laquo;</a></li>
+  {% else %}
+    <li class="disabled"><span>&laquo;</span></li>
+  {% endif %}
+  {% for i in data.paginator.page_range %}
+    {% if data.number == i %}
+       <li class="active" style = "margin:5px;padding:5px; border:solid 1px black"><span>{{ i }} <span class="sr-only">(current)</span> 
+  .     </span></li>
+  {% else %}
+  <li><a href="?page={{ i }}&state={{param}}" style = "marign:5px;padding:5px;border: solid 1px black">{{ i }}</a></li>
+  {% endif %}
+{% endfor %}
+{% if data.has_next %}
+  <li><a href="?page={{ data.next_page_number }}&state={{param}}">&raquo;</a></li>
+     {% else %}
+     <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+ </ul>
+ {% endif %}
 {%endblock%}
