@@ -23,7 +23,7 @@
 {% if data.has_other_pages %}
     <ul class="pagination">
         {% if data.has_previous %}
-            <li><a href="?page={{ data.previous_page_number }}">&laquo;</a></li>
+        <li><a href="?table={{param}}&row={{row_id}}&page={{ data.previous_page_number }}">&laquo;</a></li>
         {% else %}
             <li class="disabled"><span>&laquo;</span></li>
         {% endif %}
@@ -32,14 +32,14 @@
             {% if data.number == i %}
                 <li class="active" style="margin:5px;padding:5px; border:solid 1px black"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
             {% elif i > data.number|add:'-3' and i < data.number|add:'10' %}
-                <li><a href="?page={{ i }}" style="margin:5px;padding:5px;border: solid 1px black">{{ i }}</a></li>
+                <li><a href="?table={{param}}&row={{row_id}}&page={{ i }}" style="margin:5px;padding:5px;border: solid 1px black">{{ i }}</a></li>
             {% elif i == data.paginator.page_range|slice:"-2:"|first or i == data.paginator.page_range|slice:"-3:"|first %}
                 <li><span class="ellipsis" style="margin:5px;padding:5px;">&hellip;</span></li>
             {% endif %}
         {% endfor %}
 
         {% if data.has_next %}
-            <li><a href="?page={{ data.next_page_number }}">&raquo;</a></li>
+            <li><a href="?table={{param}}&row={{row_id}}&page={{ data.next_page_number }}">&raquo;</a></li>
         {% else %}
             <li class="disabled"><span>&raquo;</span></li>
         {% endif %}

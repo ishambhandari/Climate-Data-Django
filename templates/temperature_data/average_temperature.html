@@ -11,12 +11,13 @@
   </select>
   <button type="submit">Submit</button>
 </form>
-<table class="table">
+<table class="table"
   <thead>
     <tr>
       <th>Name</th>
       <th>Average Temperature</th>
       <th>Average Temperature Uncertainty</th>
+      <th></th>
     </tr>
   </thead>
   {% for row in data%}
@@ -25,7 +26,7 @@
       {%if 'city' in param%}
 
       <td>
-        <a href = "{% url 'specific' table_name='city' row_id=row.city_id %}">
+        <a href = "{% url 'specific'%}?table=city&row={{row.city_id}}">
         {{row.city.city}}
       </a>
       </td>
@@ -33,7 +34,7 @@
 
       {%if 'state' in param%}
       <td>
-        <a href = "{% url 'specific' table_name='state' row_id=row %}">
+        <a href = "{% url 'specific'%}?table=state&row={{row}}">
         {{row.state.state}}
       </a>
       </td>
@@ -42,7 +43,7 @@
       {%if 'country' in param%}
       <td>
 
-        <a href = "{% url 'specific' table_name='country' row_id=row %}">
+        <a href = "{% url 'specific'%}?table=country&row={{row}}">
         {{row.country.country}}
       </a>
       </td>
@@ -52,6 +53,7 @@
 
       <td>{{row.average_temperature}}</td>
       <td>{{row.average_temperature_uncertainty}}</td>
+      <td><a href = "{% url 'specific' %}?table={{param}}&row={{row}}&graph=graph"><button>Visualize</button></a></td>
     </tr>
   </tbody>
   {%endfor%}

@@ -1,0 +1,57 @@
+{% extends "temperature_data/base.html" %} {%block title%} Graph {%endblock %}
+{% block content%}
+<div>
+  <div style = "display:flex; margin-bottom:2rem">
+  <a href = '{%url 'average'%}?state={{param}}'><button style = "background-color:#333; color:#fff;border-radius:10px;padding:5px;margin:5px;">Back</button></a>
+  <h2 style = "margin-left:20rem;">{{graph_name}}</h2>
+</div>
+  <canvas id="myChart" style="width: 100vh"> </canvas>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@1.1.1"></script>
+<script>
+    const ctx = document.getElementById("myChart");
+    const labels = {{labels|safe}}
+    const data = {{data|safe}}
+    console.log('this is data', labels)
+
+    new Chart(ctx, {
+      type: "line",
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: "Temperature in celcius",
+            data: data,
+            borderWidth: 1,
+          },
+        ],
+      },
+  options: {
+    responsive: true,
+    scales: {
+      y: {
+        beginAtZero: true,
+      },
+    },
+    plugins: {
+      zoom: {
+        zoom: {
+          wheel: {
+            enabled: true,
+          },
+          pinch: {
+            enabled: true,
+          },
+          mode: 'xy',
+        },
+        pan: {
+          enabled: true,
+          mode: 'xy',
+        },
+      },
+    },
+  },
+    });
+</script>
+{% endblock%}

@@ -5,6 +5,7 @@ from . import views
 urlpatterns = [
     path('', views.index, name = 'home'),
     path('heatmap', views.heatmap, name = 'heatmap'),
+    path('compare_graph', views.places, name = 'graph'),
     path('average_data', views.average_data, name = 'average'),
-    path('specific_data/<str:table_name>/<str:row_id>', views.full_data, name = 'specific'),
+    path('specific_data/', views.full_data, name = 'specific'),
 ]

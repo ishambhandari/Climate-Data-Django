@@ -5,6 +5,7 @@ from .models import Country, City, State, Country_data, City_data, State_data, C
 # Create your views here.
 def index(request):
     return render(request, 'temperature_data/index.html')
+
 def heatmap(request):
     average_city_data = City_average.objects.all()
     for i in average_city_data:
@@ -14,28 +15,20 @@ def heatmap(request):
 
     return render(request, 'temperature_data/Heatmap.html', {'data':average_city_data})
 
-def place_names(request, parameter = 'country'):
-    if parameter == 'city':
-        data = City.objects.all()
-        return render(request,'temperature_data/places.html', {'data':data} )
-
-    elif parameter == 'state':
-        data  = State.objects.all()
-        return render(request,'temperature_data/places.html', {'data':data} )
+def places(request, category, item, date = None):
+    if request.method == 'GET':
+        city = City.objects.all()
+        state  = State.objects.all()
+        country = Country.objects.all()
+        return render(request,'temperature_data/compare_graph.html', {'city':city, 'state':state, 'country':country} )
     
-    data = Country.objects.all()
-    return render(request,'temperature_data/places.html', {'data':data} )
 
 
 
 def average_data(request):
     parameter = request.POST.get('selected_value')
-    print("this is parameter", parameter)
     page_number = request.GET.get('page', 1)
-    print('this is page', page_number)
     state = request.GET.get("state") if request.GET.get('state') else parameter
-
-    print('this is statae', state)
     page_size = 10 # number of items per page
     if state == 'city':
         data = City_average.objects.all()
@@ -54,8 +47,12 @@ def average_data(request):
 
     return render(request, 'temperature_data/average_temperature.html', {'data': page_obj, 'param': state})
 
-def full_data(request, table_name, row_id ):
+def full_data(request):
+    table_name = request.GET.get('table')
+    row_id = request.GET.get('row')
     row_id = row_id.split(',')[0]
+
+    graph = request.GET.get('graph') if request.GET.get('graph') else None
     page_number = request.GET.get('page', 1)
     page_size = 10
     if table_name == 'city':
@@ -64,6 +61,7 @@ def full_data(request, table_name, row_id ):
         param = 'city'
         paginator = Paginator(data, page_size)
         page_obj = paginator.get_page(page_number)
+        name = cid.city
 
     elif table_name == 'state':
         sid = State.objects.filter(state_id = int(row_id)).first()
@@ -71,13 +69,26 @@ def full_data(request, table_name, row_id ):
         param  = 'state'
         paginator = Paginator(data, page_size)
         page_obj = paginator.get_page(page_number)
+        name = sid.state
     else:
         cid = Country.objects.filter(country_id = int(row_id)).first()
         data = Country_data.objects.filter(country_id= cid)
         param = 'country'
         paginator = Paginator(data, page_size)
         page_obj = paginator.get_page(page_number)
-    return render(request,'temperature_data/temperature_detail.html', {'data':page_obj, 'param':param} )
+        name = cid.country
+
+    if graph != None:
+        temp_data = []
+        labels = []
+        for x in data:
+            if x.average_temperature.strip():
+                temp_data.append(float(x.average_temperature))
+                labels.append(x.date.strftime("%Y-%m-%d"))
+        
+        return render(request, 'temperature_data/graph.html', {'data':temp_data[::50], 'param':param, 'row_id':row_id, 'labels':labels[::50], 'graph_name':name})
+    return render(request,'temperature_data/temperature_detail.html', {'data':page_obj, 'param':param, 'row_id':row_id} )
+
 
     
 
