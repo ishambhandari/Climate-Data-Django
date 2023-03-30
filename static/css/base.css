@@ -47,3 +47,12 @@ body {
 #map {
   height: 180px;
 }
+.parent-box {
+  display: inline;
+}
+.box1 {
+  border: solid 1px black;
+}
+.box2 {
+  border: solid 1px black;
+}
