@@ -86,7 +86,7 @@ def full_data(request):
                 temp_data.append(float(x.average_temperature))
                 labels.append(x.date.strftime("%Y-%m-%d"))
         
-        return render(request, 'temperature_data/graph.html', {'data':temp_data[::50], 'param':param, 'row_id':row_id, 'labels':labels[::50], 'graph_name':name})
+        return render(request, 'temperature_data/graph.html', {'data':temp_data, 'param':param, 'row_id':row_id, 'labels':labels, 'graph_name':name})
     return render(request,'temperature_data/temperature_detail.html', {'data':page_obj, 'param':param, 'row_id':row_id} )
 
 

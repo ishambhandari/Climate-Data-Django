@@ -37,15 +37,15 @@ class Command(BaseCommand):
             f.seek(0)
             next(reader_country)
             for u_row in reader_country:
-                cid = Country.objects.get(country = u_row[3])
-                print('cid', cid.country_id)
-                country_data = Country_data.objects.create(
-                date = u_row[0],
-                average_temperature = u_row[1],
-                average_temperature_uncertainty = u_row[2],
-                country_id = cid
-                )
-                country_data.save()
+                    cid = Country.objects.get(country = u_row[3])
+                    print('cid', cid.country_id)
+                    country_data = Country_data.objects.create(
+                    date = u_row[0],
+                    average_temperature = u_row[1],
+                    average_temperature_uncertainty = u_row[2],
+                    country_id = cid
+                    )
+                    country_data.save()
 
             reader_city= csv.reader(C, delimiter=",")
             next(reader_city) # skip the header line
@@ -59,11 +59,10 @@ class Command(BaseCommand):
                         city = u_city[0],
                         country_id = u_city[1]
                         )
-            f.seek(0)
+            C.seek(0)
             next(reader_city)
             for u_row in reader_city:
                 cid = City.objects.get(city = u_row[3])
-
                 country_instance = Country.objects.get(country_id = cid.country_id.country_id)
                 print('this is country_ins', country_instance)
                 print('cid', cid.city_id)
@@ -92,7 +91,7 @@ class Command(BaseCommand):
                         state = u_state[0],
                         country_id = u_state[1]
                         )
-            f.seek(0)
+            S.seek(0)
             next(reader_state)
             for u_row in reader_state:
                 cid = State.objects.get(state = u_row[3])
