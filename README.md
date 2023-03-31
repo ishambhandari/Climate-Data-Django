@@ -73,5 +73,11 @@ Check everything is running fine on server, type this command in terminal to run
     python3 manage.py runserver 0.0.0.0:8000
 
 #### Creating visuals for data
+* Maps  for the average temperature of major cities
 
-#### Deployment
+The heat maps are created using leaflet JS library which shows the temperature on the map for the major cities with the help of latitude and longitude attributes. 
+
+
+* Charts for showing the graph of a specific country, city and state
+
+The charts are created using the Chart JS library in the graph.html file. There is also a compare_ graph.html which shows the comparison on the selection of the drop down for country, state and city.
