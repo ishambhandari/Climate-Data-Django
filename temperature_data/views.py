@@ -6,6 +6,60 @@ from .models import Country, City, State, Country_data, City_data, State_data, C
 def index(request):
     return render(request, 'temperature_data/index.html')
 
+def compare_graph(request):
+    if request.method == 'GET':
+        return render(request, 'temperature_data/compare_graph.html')
+
+    #Getting the parameters from post request
+    table1 = request.POST.get('table1')
+    table2= request.POST.get('table2')
+    name1 = request.POST.get('name1')
+    name2= request.POST.get('name2')
+    print('table', table2)
+    print('name', name2)
+    data_list = []
+    data_list2 = []
+    label1 = []
+    label2 = []
+    if table1 == 'country':
+        cid = Country.objects.filter(country = name1).first()
+        data = Country_data.objects.filter(country_id = cid)
+        for i in data:
+            data_list.append(i.average_temperature)
+            label1.append(i.date.strftime("%Y-%m-%d"))
+    elif table1 == 'city':
+        cid = City.objects.filter(city = name1).first()
+        data = City_data.objects.filter(city_id = cid)
+        for i in data:
+            data_list.append(i.average_temperature)
+            label1.append(i.date.strftime("%Y-%m-%d"))
+    elif table1 == 'state':
+        sid = State.objects.filter(state = name1).first()
+        data = State_data.objects.filter(state_id = sid)
+        for i in data:
+            data_list.append(i.average_temperature)
+            label1.append(i.date.strftime("%Y-%m-%d"))
+    if table2 == 'country':
+        cid = Country.objects.filter(country = name2).first()
+        data = Country_data.objects.filter(country_id = cid)
+        for i in data:
+            data_list2.append(i.average_temperature)
+            label2.append(i.date.strftime("%Y-%m-%d"))
+
+    elif table2 == 'city':
+        cid = City.objects.filter(city = name2).first()
+        data = City_data.objects.filter(city_id = cid)
+        for i in data:
+            data_list2.append(i.average_temperature)
+            label2.append(i.date.strftime("%Y-%m-%d"))
+    elif table2 == 'state':
+        cid = State.objects.filter(state = name2).first()
+        data = State_data.objects.filter(state_id = cid)
+        for i in data:
+            data_list2.append(i.average_temperature)
+            label2.append(i.date.strftime("%Y-%m-%d"))
+    return render(request, 'temperature_data/compare_graph.html', {'data1':data_list,'label1':label1, 'param1':table1, 'name1' : name1, 'data2':data_list2, 'label2': label2,  'param2':table2, 'name2':name2})
+
 def heatmap(request):
     average_city_data = City_average.objects.all()
     for i in average_city_data:
@@ -14,16 +68,6 @@ def heatmap(request):
         i.average_temperature = int(i.average_temperature)
 
     return render(request, 'temperature_data/Heatmap.html', {'data':average_city_data})
-
-def places(request, category, item, date = None):
-    if request.method == 'GET':
-        city = City.objects.all()
-        state  = State.objects.all()
-        country = Country.objects.all()
-        return render(request,'temperature_data/compare_graph.html', {'city':city, 'state':state, 'country':country} )
-    
-
-
 
 def average_data(request):
     parameter = request.POST.get('selected_value')
@@ -86,8 +130,10 @@ def full_data(request):
                 temp_data.append(float(x.average_temperature))
                 labels.append(x.date.strftime("%Y-%m-%d"))
         
-        return render(request, 'temperature_data/graph.html', {'data':temp_data[::50], 'param':param, 'row_id':row_id, 'labels':labels[::50], 'graph_name':name})
+        return render(request, 'temperature_data/graph.html', {'data':temp_data, 'param':param, 'row_id':row_id, 'labels':labels, 'graph_name':name})
     return render(request,'temperature_data/temperature_detail.html', {'data':page_obj, 'param':param, 'row_id':row_id} )
+
+
 
 
     

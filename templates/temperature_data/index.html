@@ -2,3 +2,38 @@
 {%block title%}
 <p>Home page</p>
 {%endblock %}
+
+{% block content%}
+<div class="container" >
+    <h1>
+        Are we headed to an extreme climate?
+    </h1>
+    <h1>
+        Let's find out!
+    </h1>
+    <p>
+        Welcome to our climate data application!
+    <p>
+        Our app provides you with access to climate data from various countries, cities, and states. With over a million rows of data, our records date back to the 1700s, giving you a comprehensive look at the earth's surface temperature over the years.
+    </P>
+    <p>
+        We understand that analyzing such a vast amount of data can be daunting, which is why we've created intuitive visualizations to help you better understand the climate trends. You can explore temperature levels through our line chart or display the data on a map to get a better geographical understanding of climate trends.
+    </p>
+    <p>
+        Our app also provides an option to compare climate trends between different cities, countries, and states. By comparing climate data, you can gain insight into the changes that have been made to the climate over the years.
+    </p>
+    <p>
+        We believe in providing our users with access to accurate and reliable climate data, which is why we have partnered with Berkeley Earth. Their Surface Temperature Study combines 1.6 billion temperature reports from 16 pre-existing archives, making it the most comprehensive and reliable climate data set available. They also publish the source data and the code for the transformations they applied, giving you the transparency you need to form your own views on climate change.
+    </p>
+    <p>
+        We understand that the study of climate trends is complex and there are various organizations that collate climate trends data. That is why we've made it our mission to bring this data to you in a simple and easy-to-understand format.
+    </p>
+    <p>
+        We hope that our climate data application will empower you to better understand the changes being made to our climate and make informed decisions about the future.
+    </p>
+
+    <a href="/average_data?state=country">
+        <button type="button" class="btn btn-dark" >Dive Deep into the data</button>
+    </a>
+</div>
+{% endblock %}

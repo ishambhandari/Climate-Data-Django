@@ -17,7 +17,8 @@ class Command(BaseCommand):
         City_average.objects.all().delete()
         State_average.objects.all().delete()
         for country in all_countries:
-            print('this is country', country) specific_data = Country_data.objects.filter(country_id = country)  
+            print('this is country', country)
+            specific_data = Country_data.objects.filter(country_id = country)  
             average_temp = []
             average_temp_uncertainty = []
             for data in specific_data:

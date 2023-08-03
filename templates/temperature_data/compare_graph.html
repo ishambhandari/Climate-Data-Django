@@ -1,13 +1,97 @@
 {% extends "temperature_data/base.html" %} {%block title%} Compare Form
 {%endblock %} {%block content%}
-<div class="container">
-  <select id="my-select" name="selected_value">
+<div class="main-container">
+  <form action="compare_data" method="POST">
+    {% csrf_token %}
+    <div class = 'parent-box'>
+    <div class = 'box1'>
+  <select id="my-select" name="table1">
     <option value="country">Countries</option>
     <option value="city">Cities</option>
     <option value="state">States</option>
   </select>
+  <label for="search">Search:</label>
+  <input type="text" id="search" name="name1" placeholder = "China">
+    </div>
 
-  <select id="select-second" name="selected_value_name"></select>
+    <div class = 'box2'>
+  <select id="my-select-2" name="table2">
+    <option value="country">Countries</option>
+    <option value="city">Cities</option>
+    <option value="state">States</option>
+  </select>
+  <label for="search">Search:</label>
+  <input type="text" id="search" name="name2" placeholder = "Italy">
+  <button type="submit">Go</button>
+    </div>
+    <div>
+      <div>
+  </form>
+  <p><em>**Note** If the name does not match in the database graph might be empty</em></p>
+  <p><em>The search box is case sensitive.</em></p>
+
 </div>
+
+
+
+
+</div>
+  <canvas id="myChart" style="width:500px"> </canvas>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@1.1.1"></script>
+<script>
+    const ctx = document.getElementById("myChart");
+    const labels = {{label1|safe}}
+    const data = {{data1|safe}}
+    const labels2 = {{label2|safe}}
+    const data2 = {{data2|safe}}
+    console.log("herer", data)
+
+    new Chart(ctx, {
+      type: "line",
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: "{{name1}}",
+            data: data,
+            borderWidth: 1,
+          },
+
+          {
+            label: "{{name2}}",
+            data: data2,
+            borderWidth: 1,
+          },
+        ],
+      },
+  options: {
+    responsive: true,
+    scales: {
+      y: {
+        beginAtZero: true,
+      },
+    },
+    plugins: {
+      zoom: {
+        zoom: {
+          wheel: {
+            enabled: true,
+          },
+          pinch: {
+            enabled: true,
+          },
+          mode: 'xy',
+        },
+        pan: {
+          enabled: true,
+          mode: 'xy',
+        },
+      },
+    },
+  },
+    });
+</script>
 
 {%endblock%}
